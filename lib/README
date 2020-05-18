@@ -1,0 +1,43 @@
+Voyons tout d'abord le fichier dklabyrinthe.py :
+
+    Documentation sur le programme
+
+    Importation des fichiers nécessaires au script (pygame + mes propres modules)
+
+    Initialisation de Pygame et ouverture de la fenêtre
+
+    Boucle principale : c'est la boucle du programme, tant qu'elle tourne, le programme est en marche.
+
+    Au début de celle-ci, on affiche l'écran d'accueil.
+
+    Boucle d'accueil : tant qu'elle tourne, l'écran d'accueil est visible.
+
+    Quand l'utilisateur passe l'accueil, on ferme la boucle d'accueil.
+
+    On charge le niveau, le personnage (grâce à des classes) et les images.
+
+    Boucle de jeu : tant qu'elle tourne, l'utilisateur joue et déplace DK.
+
+    On met à jour l'écran avec les nouvelles positions à chaque tour de boucle (le niveau est affiché grâce à une méthode de la classe Niveau)
+
+    A chaque tour de boucle, on vérifie que le joueur n'a pas gagné. Si c'est le cas, on le renvoit à l'écran d'accueil.
+
+Voyons maintenant le fichier classes.py :
+
+    Documentation sur le fichier.
+
+    Importation des fichiers nécessaires. (pygame et constantes.py)
+
+    Classe Niveau. Elle prend en paramètre le chemin vers le fichier de niveau à lire.
+
+    Cette classe possède deux méthodes. Une qui ouvre le fichier, le lit et enregistre son contenu dans une liste, copiée dans l'attribut structure. L'autre lit cette liste et affiche son contenu à l'écran, elle doit donc être appelée à chaque fois qu'on rafraîchit l'écran ! :)
+
+    Classe Perso. Elle prend en paramètre les images des 4 positions du personnage, ainsi que la liste de structure du niveau.
+
+    Cette classe possède une seule méthode, qui s'occupe du déplacement de DK, qu'on appelle donc à chaque déplacement, avec en paramètre la direction de celui-ci. ('droite', 'gauche', 'haut', 'bas')
+
+    Elle vérifie qu'on ne sort pas de l'écran. (On enlève 1 à la constante nombre_sprite_cote car la case de DK est elle comptée à partir de 0 ;) )
+
+    Elle vérifie que la case de destination est libre en lisant la liste de structure.
+
+    Elle déplace DK d'une case et change sa position réelle en pixel. L'attribut de direction prend la valeur de la direction du déplacement.
