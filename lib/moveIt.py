@@ -17,9 +17,17 @@ from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+nbr_classes=180
+seuil=5
+objet=0
+roi_hist=0 
+roi_x=210
+roi_y=120
+roi_w=180
+roi_h=220
 
 class moveIt:
-
+    
     def __init__(self, moves_list: list, img_per_direction: int = 100,
                  count_test_img: int = 20, 
                  working_directory: str = "working/", train_directory: str = "train/",
@@ -61,6 +69,33 @@ class moveIt:
                 org_height += org_height
         cv2.imshow('VIDEO', frame)
 
+    def __capture(self, frame):
+        global objet,roi_hist
+        roi=frame[roi_y: roi_y + roi_h, roi_x: roi_x + roi_w]
+        hsv_roi=cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
+        roi_hist=cv2.calcHist([hsv_roi], [0], None, [nbr_classes], [0, nbr_classes])
+        cv2.normalize(roi_hist, roi_hist, 0, 255, cv2.NORM_MINMAX)
+        cv2.destroyWindow('ROI')
+        objet=1
+
+    def __masked(self, frame):
+        hsv=cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        mask=cv2.calcBackProject([hsv], [0], roi_hist, [0, nbr_classes], 1)
+
+        _, mask2=cv2.threshold(mask, seuil, 255, cv2.THRESH_BINARY)
+        mask2=cv2.erode(mask2, None, iterations=3)
+        mask2=cv2.dilate(mask2, None, iterations=3)
+
+        image2=cv2.bitwise_and(frame, frame, mask=mask2)
+        
+        elements=cv2.findContours(mask2, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[-2]
+        if len(elements) > 0:
+            c=max(elements, key=cv2.contourArea)
+            x,y,w,h=cv2.boundingRect(c)
+            cv2.rectangle(frame, (x,y), (x+w,y+h), (0,255,0), 2)
+        
+        return image2
+
     def set_moves(self):
         # Initialize the webcam
         cap = cv2.VideoCapture(0)
@@ -73,6 +108,8 @@ class moveIt:
         while True:
             # starting the webcam
             ret, frame = cap.read()
+            if objet == 0 :
+                cv2.rectangle(frame, (roi_x, roi_y), (roi_x+roi_w, roi_y+roi_h), (255,0,0), 2)
             if not taking_picture:
                 if directions_counter != 0:
                     self.__webcam_with_text(frame, ["Move {} succefully saved !".format(directions_counter),
@@ -88,13 +125,18 @@ class moveIt:
                 direction = self.directions[directions_counter]
                 print("starting pictures taking ({}) ...".format(direction))
 
+            if key==ord('a'):
+                self.__capture(frame)
+
             if taking_picture:
+                if objet : 
+                    image_to_save = self.__masked(frame)
                 #  create the folders
                 direction_folder = self.working_directory + self.directions[directions_counter]
                 if not os.path.exists(direction_folder): os.makedirs(direction_folder)
                 if count < self.img_count:
                     filename = direction_folder + "/" + self.directions[directions_counter] + "_" + str(count) + ".jpg"
-                    cv2.imwrite(filename, img=frame)
+                    cv2.imwrite(filename, img=image_to_save)
                     count += 1
 
                 else:
