@@ -1,17 +1,22 @@
 # MoveIt
 
-## Architecture
+## Quickstart
 
-.
-├── documentation
-│   └── doc.md
-├── moveit
-│   ├── __init__.py
-│   ├── dl.py
-│   └── ml.py
-├── README.md
-└── wheel
-    ├── MoveItPa-0.0.1-py3-none-any.whl
-    ├── MoveItPa-0.0.2-py3-none-any.whl
-    ├── MoveItPa-0.0.3-py3-none-any.whl
-    └── MoveItPa-0.0.4-py3-none-any.whl
+### Install 
+You can install the library using pip
+
+```
+pip install moveitpa
+```
+
+### Utilisation
+
+In your script or module import the class you want to use
+* moveit.ml
+* moveit.dl
+
+Then you can initialise an object move whith calling principal function of the class in your case
+* MoveIt_ML()
+* MoveIt_DL()
+
+
