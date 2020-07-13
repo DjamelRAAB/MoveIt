@@ -21,11 +21,11 @@ To explore, run:
 
 Documentation
 ===========    
-More information can be found on the  [official documentation.](https://github.com/DjamelRAAB/MoveIt/documentation)
+More information can be found on the  [official documentation.](documentation.md)
 
 Examples of use
 ===========    
-Here [two examples](https://github.com/DjamelRAAB/MoveIt/examples) of deploying the library  [official documentation.]
+Here [two examples](examples/) of deploying the library  [official documentation.]
 ### Pacman
 ![Pac-Man](resources/pacman.jpeg)
 ### [2048](https://github.com/yangshun/2048-python)
