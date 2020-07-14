@@ -27,9 +27,9 @@ Examples of use
 ===========    
 Here [two examples](examples/) of deploying the library  [official documentation.]
 ### Pacman
-![Pac-Man](resources/pacman.jpeg)
+![Pac-Man](resources/pacman.gif)
 ### [2048](https://github.com/yangshun/2048-python)
-![2048-game](resources/2048.png)
+![2048-game](resources/2048.gif)
 
 
 Contributors:
