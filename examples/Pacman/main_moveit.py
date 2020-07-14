@@ -35,8 +35,12 @@ pygame.display.set_caption(WINDOW_TITLE)
 
 directions = ["up", "right", "down", "left"]
 moveit = MoveIt_ML(directions)
+moveit.set_moves()
+x_train, y_train, x_test, y_test = moveit.split_data()
+model = moveit.train_model(x_train, y_train, validation_data=(x_test, y_test), neighbors = list(range(4, 7)) )
 try:
-    model = moveit.load_model(path_to_model="working/models/knn_3n_classifier_2020-06-30 18:54.sav")
+    #model = moveit.load_model(path_to_model="working/models/knn_3n_classifier_2020-06-30 18:54.sav")
+    #model = moveit.load_model(newest_model_in_directory=True)
     print("model ready !")
 except:
     print("Cannot load model !")
